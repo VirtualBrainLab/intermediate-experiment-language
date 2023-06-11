@@ -40,22 +40,32 @@ These nodes exist in all experiments and define the trial-by-trial logic of the 
 Data nodes capture custom information. By default, the program logs the interval between the experiment, block, and trial start and ends nodes (i.e. reaction times). Each set of data is stored in its own Experiment/Block/Trial dataframe, which is saved a CSV file. 
 
 - ExperimentData/BlockData/TrialData: Takes as input a serializable value and a name and saves these as a new column in the corresponding datafarme.
+- ContinuousData: Data that is written to continuously (on every frame) and is saved separately as a raw .bytes file. 
 
-# Data
+## Communication Nodes
 
-By default, the program should log 
+- SocketNode: Opens a ZeroMQ socket connection to push/pull data
+- SerialNode: Opens a serial connection, e.g. to an Arduino to push/pull data
+- APINode: Send or receive data from an API request
 
 # API
 
-The application should be controllable from triggers sent via an external application, through ZeroMQ. Data is sent as a flat byte[], where the first 4 bytes identify the message type and any data that need to be sent. 
+The application should be controllable from triggers sent via an external application, through ZeroMQ. Data is sent either as a string or a flat byte[].
 
 ## Triggers
 
 ### Experiment triggers (message type only)
-- start [0000]: Triggers the ExperimentStart node and begins the experiment
-- stop [0001]: Ends the experiment
-- pause [0002]: Pauses the experiment
+- "start": Triggers the ExperimentStart node and begins the experiment
+- "stop": Ends the experiment
+- "pause": Pauses the experiment
 
 ### Data triggers
 
-- get data [001x]: Requests all of the current data for x=0/1/2=experiment/block/trial
+- "data-x": Requests all of the current data for x=experiment/block/trial
+
+## Messages
+
+Messages can be sent via the API to control an experiment, for example to allow for debugging. Messages can be both sent and received through the API.
+
+- "send": Sends serializable data to be received by a communication node
+- "receive": Receives data from a communication node
