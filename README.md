@@ -4,7 +4,7 @@ This is the specification for intermediate experiment language (.ixl) files, whi
 
 # Experiment Graph
 
-An experiment is a directed graph that starts from a `ExperimentStart` node and leads to an `ExperimentEnd` node. 
+An experiment is a directed graph that starts from a `ExperimentStart` node and leads to an `ExperimentEnd` node. Graphs are stored in JSON files using the [jsongraph](https://github.com/jsongraph/json-graph-specification) format. 
 
 # Nodes
 
